@@ -1,0 +1,68 @@
+Q-1. https://leetcode.com/problems/two-sum/?envType=problem-list-v2&envId=array
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        n = len(nums)
+        for i in range(n-1):
+            for j in range(i+1, n):
+                if nums[i] + nums[j] == target:
+                    return [i,j]
+        return [] 
+
+Q-2. https://leetcode.com/problems/remove-element/submissions/1437394730/?envType=problem-list-v2&envId=array
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        index = 0
+        for i in range(len(nums)):
+            if nums[i] != val:
+                nums[index] = nums[i]
+                index += 1
+        return index
+Q-3. https://leetcode.com/problems/next-permutation/submissions/1437425102/?envType=problem-list-v2&envId=array
+
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        i = len(nums) -2
+        while i >= 0 and nums[i] >= nums[i+1]:
+            i-=1
+        if i == -1:
+            return nums.reverse()
+
+        for n in sorted(nums[i+1:]):
+            if n > nums[i]:
+                break
+        j = nums[i+1:].index(n)
+
+        nums[i], nums[i+j+1] = nums[i+j+1], nums[i]
+        nums[i+1:] = sorted(nums[i+1:])
+        return nums
+Q-4. https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/1437411745/?envType=problem-list-v2&envId=array
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        def binary_search(nums, target, is_searching_left):
+            left = 0
+            right = len(nums) - 1
+            idx = -1
+
+            while left <= right:
+                mid = (left + right) // 2
+                if nums[mid] > target:
+                    right = mid -1
+                elif nums[mid] < target:
+                    left = mid + 1
+                else:
+                    idx = mid
+                    if is_searching_left:
+                        right = mid - 1
+                    else:
+                        left = mid + 1
+            return idx
+        left = binary_search(nums, target, True)
+        right = binary_search(nums, target, False)
+
+        return [left, right]
+
+
+        
